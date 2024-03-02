@@ -22,7 +22,7 @@ En definitiva, lo que nos pide el cliente es lo siguiente:
 
 Para ello te muestro un diagrama de clases para el mismo y poco a poco te iré explicando los diferentes pasos a realizar:
 
-![Diagrama de clases para reservasHotel](https://raw.githubusercontent.com/andresrubiodelrio/ReservasHotel_v3/master/src/main/resources/uml/ReservasHotel_v3.png)
+![Diagrama de clases para reservasHotel](https://raw.githubusercontent.com/andresrubiodelrio/ReservasHotel_v4/master/src/main/resources/uml/ReservasHotel_v4.png)
 
 #### Primeros Pasos
 1. Lo primero que debes hacer es realizar un **fork** del repositorio donde he colocado el esqueleto de este proyecto.

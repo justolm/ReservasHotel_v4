@@ -39,14 +39,14 @@ Para ello te muestro un diagrama de clases para el mismo y poco a poco te iré e
 
 #### Paquete mongodb.utilidades
 1. Crea la clase `MongoDB` para que se ajuste a lo mostrado a continuación:
-   1. Atributos
+    1. Atributos
 ![MongoDB Atributos](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/MongoDB_Atibutos.png)
 ![Valores constantes 3](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/Valores_Constantes_3.png)
 ![Valores constantes](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/Valores_Constantes.png)
 ![Valores constantes 2](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/Valores_Constantes_2.png)
 
 En la constante **SERVIDOR** deberás poner la URL que asigne DB Atlas al cluster donde se va a desplegar la base de datos MongoDB.
-   2. Métodos
+   2.  Métodos
 
 ![Métodos MongoDB](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/MetodosMongoDB.png)
 

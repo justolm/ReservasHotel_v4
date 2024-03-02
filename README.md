@@ -38,19 +38,21 @@ Para ello te muestro un diagrama de clases para el mismo y poco a poco te iré e
 
 
 #### Paquete mongodb.utilidades
-1. Crea la clase `MongoDB` para que se ajuste a lo mostrado a continuación:
-    1. Atributos
+Crea la clase `MongoDB` para que se ajuste a lo mostrado a continuación:
+1. Atributos
+   
 ![MongoDB Atributos](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/MongoDB_Atibutos.png)
 ![Valores constantes 3](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/Valores_Constantes_3.png)
 ![Valores constantes](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/Valores_Constantes.png)
 ![Valores constantes 2](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/Valores_Constantes_2.png)
 
 En la constante **SERVIDOR** deberás poner la URL que asigne DB Atlas al cluster donde se va a desplegar la base de datos MongoDB.
-   2.  Métodos
+
+2. Métodos
 
 ![Métodos MongoDB](https://github.com/andresrubiodelrio/ReservasHotel_v4/blob/master/src/main/resources/imagenes/MetodosMongoDB.png)
 
-   3. Descripción de los métodos
+3. Descripción de los métodos
       1. `getBD`: en caso de que la conexión sea nula, deberá establecer la conexión y devolver la base de datos MongoDB a la que se conecta.
       2. `establececerConexion`: Permite conectarse a una base de datos MongoDB.
       3. `cerrarConexion`: Cierra la conexión con una base de datos MongoDB.
@@ -58,7 +60,7 @@ En la constante **SERVIDOR** deberás poner la URL que asigne DB Atlas al cluste
       5. `getHuesped`: Método que convierte un documento de la colección Huespedes de MongoDB en un objeto de tipo Huesped.
       6. `getHabitacion`: Método que convierte un documento de la colección Habitaciones de MongoDB en un objeto de tipo Habitacion.
       7. `getReserva`: Método que convierte un documento de la colección Reservas de MongoDB en un objeto de tipo Reserva.
-2. Realiza el **commit** correspondiente.
+4. Realiza el **commit** correspondiente.
 
 #### Paquete negocio
 1. Implementa en la clase `Reservas` el método `getReservas` que recibe como parámetro un objeto de tipo habitación y devuelve la lista de reservas de dicha habitación.

@@ -92,7 +92,7 @@ public class MongoDB {
         }
 
 
-        //Creamos la conexión con el serveridos según el setting anterior
+        //Creamos la conexión con el servidor según el setting anterior
         conexion = MongoClients.create(settings);
 
         try

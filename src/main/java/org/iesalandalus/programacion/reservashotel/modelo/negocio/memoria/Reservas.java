@@ -77,25 +77,38 @@ public class Reservas implements IReservas {
     }
 
     public List<Reserva> getReservas (TipoHabitacion tipoHabitacion) throws NullPointerException{
-        List<Reserva> copiaProfundaHabitacionesHabitacion = new ArrayList<>();
+        List<Reserva> copiaProfundaHabitacionesTipoHabitacion = new ArrayList<>();
         if (tipoHabitacion==null){
             throw new NullPointerException("ERROR: No se pueden buscar reservas de un tipo de habitación nula.");
         }
         for (int i=0 ; i < coleccionReservas.size() ; i++){
             if (coleccionReservas.get(i).getHabitacion() instanceof Simple && tipoHabitacion==TipoHabitacion.SIMPLE){
-                copiaProfundaHabitacionesHabitacion.add(new Reserva(coleccionReservas.get(i)));
+                copiaProfundaHabitacionesTipoHabitacion.add(new Reserva(coleccionReservas.get(i)));
             }
             else if (coleccionReservas.get(i).getHabitacion() instanceof Doble && tipoHabitacion==TipoHabitacion.DOBLE) {
-                copiaProfundaHabitacionesHabitacion.add(new Reserva(coleccionReservas.get(i)));
+                copiaProfundaHabitacionesTipoHabitacion.add(new Reserva(coleccionReservas.get(i)));
             }
             else if (coleccionReservas.get(i).getHabitacion() instanceof Triple && tipoHabitacion==TipoHabitacion.TRIPLE) {
-                copiaProfundaHabitacionesHabitacion.add(new Reserva(coleccionReservas.get(i)));
+                copiaProfundaHabitacionesTipoHabitacion.add(new Reserva(coleccionReservas.get(i)));
             }
             else if (coleccionReservas.get(i).getHabitacion() instanceof Suite && tipoHabitacion==TipoHabitacion.SUITE) {
-                copiaProfundaHabitacionesHabitacion.add(new Reserva(coleccionReservas.get(i)));
+                copiaProfundaHabitacionesTipoHabitacion.add(new Reserva(coleccionReservas.get(i)));
             }
         }
-        return copiaProfundaHabitacionesHabitacion;
+        return copiaProfundaHabitacionesTipoHabitacion;
+    }
+
+    public List<Reserva> getReservas (Habitacion habitacion) throws NullPointerException {
+        List<Reserva> copiaProfundaHabitacionesReservasHabitacion = new ArrayList<>();
+        for (int i=0 ; i < getTamano() ; i++){
+            if (habitacion==null){
+                throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
+            }
+            if (coleccionReservas.get(i).getHabitacion().equals(habitacion)){
+                copiaProfundaHabitacionesReservasHabitacion.add(new Reserva(coleccionReservas.get(i)));
+            }
+        }
+        return copiaProfundaHabitacionesReservasHabitacion;
     }
 
     public List<Reserva> getReservasFuturas (Habitacion habitacion) throws NullPointerException {
@@ -160,4 +173,10 @@ public class Reservas implements IReservas {
             }
         }
     }
+
+    @Override
+    public void comenzar() {}
+
+    @Override
+    public void terminar() {}
 }

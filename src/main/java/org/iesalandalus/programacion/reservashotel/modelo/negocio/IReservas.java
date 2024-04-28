@@ -10,14 +10,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IReservas {
-    public List<Reserva> get();
-    public int getTamano();
-    public void insertar(Reserva reserva) throws OperationNotSupportedException;
-    public Reserva buscar(Reserva reserva);
-    public void borrar(Reserva reserva) throws OperationNotSupportedException;
-    public List<Reserva> getReservas(Huesped huesped);
-    public List<Reserva> getReservas(TipoHabitacion tipoHabitacion);
-    public List<Reserva> getReservasFuturas(Habitacion habitacion);
-    public void realizarCheckin(Reserva reserva, LocalDateTime fecha);
-    public void realizarCheckout(Reserva reserva, LocalDateTime fecha);
+    List<Reserva> get();
+    int getTamano();
+    void insertar(Reserva reserva) throws OperationNotSupportedException;
+    Reserva buscar(Reserva reserva);
+    void borrar(Reserva reserva) throws OperationNotSupportedException;
+    List<Reserva> getReservas(Huesped huesped);
+    List<Reserva> getReservas(TipoHabitacion tipoHabitacion);
+    List<Reserva> getReservasFuturas(Habitacion habitacion);
+    void realizarCheckin(Reserva reserva, LocalDateTime fecha);
+    void realizarCheckout(Reserva reserva, LocalDateTime fecha);
+    void comenzar();
+    void terminar();
 }

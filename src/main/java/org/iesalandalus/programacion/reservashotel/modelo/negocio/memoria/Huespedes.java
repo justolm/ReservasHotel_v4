@@ -63,4 +63,10 @@ public class Huespedes implements IHuespedes {
             throw new OperationNotSupportedException("ERROR: No existe ningún huésped como el indicado.");
         }
     }
+
+    @Override
+    public void comenzar() {}
+
+    @Override
+    public void terminar() {}
 }

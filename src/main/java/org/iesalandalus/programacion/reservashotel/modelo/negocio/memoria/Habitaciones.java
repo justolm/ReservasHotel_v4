@@ -136,4 +136,10 @@ public class Habitaciones implements IHabitaciones {
             throw new OperationNotSupportedException("ERROR: No existe ninguna habitación como la indicada.");
         }
     }
+
+    @Override
+    public void comenzar() {}
+
+    @Override
+    public void terminar() {}
 }

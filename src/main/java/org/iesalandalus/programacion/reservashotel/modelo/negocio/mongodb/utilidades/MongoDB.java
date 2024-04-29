@@ -92,7 +92,7 @@ public class MongoDB {
         }
 
 
-        //Creamos la conexión con el servidor según el setting anterior
+        //Creamos la conexiÃ³n con el servidor segÃºn el setting anterior
         conexion = MongoClients.create(settings);
 
         try
@@ -109,14 +109,14 @@ public class MongoDB {
 
         }
 
-        System.out.println("Conexión a MongoDB realizada correctamente.");
+        System.out.println("ConexiÃ³n a MongoDB realizada correctamente.");
     }
 
-    public void cerrarConexion() {
+    public static void cerrarConexion() {
         if (conexion != null) {
             conexion.close();
             conexion = null;
-            System.out.println("Conexión a MongoDB cerrada.");
+            System.out.println("ConexiÃ³n a MongoDB cerrada.");
         }
     }
 

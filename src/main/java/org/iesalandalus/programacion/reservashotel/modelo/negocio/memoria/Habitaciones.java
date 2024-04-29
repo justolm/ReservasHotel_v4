@@ -96,22 +96,7 @@ public class Habitaciones implements IHabitaciones {
         }
         if (coleccionHabitaciones.contains(habitacion)){
             throw new OperationNotSupportedException("ERROR: Ya existe una habitación con ese identificador.");
-        } /*
-        if (habitacion instanceof Simple){
-            coleccionHabitaciones.add(new Simple((Simple) habitacion));
         }
-        else if (habitacion instanceof Doble) {
-            coleccionHabitaciones.add(new Doble((Doble) habitacion));
-        }
-        else if (habitacion instanceof Triple) {
-            coleccionHabitaciones.add(new Triple((Triple) habitacion));
-        }
-        else if (habitacion instanceof Suite) {
-            coleccionHabitaciones.add(new Suite((Suite) habitacion));
-        }
-        else {
-            throw new IllegalArgumentException("ERROR: El tipo de habitación es incorrecto.");
-        }*/
         coleccionHabitaciones.add(habitacion);
     }
 

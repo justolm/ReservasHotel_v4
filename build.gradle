@@ -18,7 +18,7 @@ dependencies {
     // Entrada para que el repositorio jitpack.io sepa acceder a la localización de librería entrada
     implementation 'com.github.JRJimenezReyes:entrada:1.0.3'
 
-    // MogoDB Driver
+    // MongoDB Driver
     implementation 'org.mongodb:mongodb-driver-sync:4.4.2'
 }
 

@@ -5,6 +5,8 @@ import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
 
+import java.util.List;
+
 public class FuenteDatosMongoDB implements IFuenteDatos {
 
     @Override

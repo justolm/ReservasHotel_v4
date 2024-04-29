@@ -18,7 +18,7 @@ public class Habitaciones implements IHabitaciones {
     private MongoCollection<Document> coleccionHabitaciones;
 
     public Habitaciones() {
-        // La dejamos vacía para evitar el constructor por defecto.
+        coleccionHabitaciones = MongoDB.getBD().getCollection(COLECCION);
     }
 
     public List<Habitacion> get() throws NullPointerException, IllegalArgumentException {

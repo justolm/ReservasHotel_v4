@@ -18,7 +18,7 @@ public class Huespedes implements IHuespedes {
     private MongoCollection<Document> coleccionHuespedes;
 
     public Huespedes () {
-        // Lo dejamos vacío para evitar el constructor por defecto.
+        coleccionHuespedes = MongoDB.getBD().getCollection(COLECCION);
     }
 
     public List<Huesped> get() {

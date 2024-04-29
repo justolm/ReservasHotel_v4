@@ -20,7 +20,7 @@ public class Reservas implements IReservas {
     private MongoCollection<Document> coleccionReservas;
 
     public Reservas () {
-        // La dejamos vacía para evitar el constructor por defecto.
+        coleccionReservas = MongoDB.getBD().getCollection(COLECCION);
     }
 
     public List<Reserva> get() {

@@ -1,6 +1,6 @@
 package org.iesalandalus.programacion.reservashotel.controlador;
 
-import org.iesalandalus.programacion.reservashotel.modelo.Modelo;
+import org.iesalandalus.programacion.reservashotel.modelo.IModelo;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Reserva;
@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Controlador {
-    private Modelo modelo;
-    private Vista vista;
+    private final IModelo modelo;
+    private final Vista vista;
 
-    public Controlador (Modelo modelo, Vista vista){
+    public Controlador (IModelo modelo, Vista vista){
         if (modelo==null){
             throw new NullPointerException("ERROR: El modelo no puede ser nulo.");
         }

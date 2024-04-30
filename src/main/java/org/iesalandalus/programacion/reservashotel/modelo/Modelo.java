@@ -8,29 +8,35 @@ import org.iesalandalus.programacion.reservashotel.modelo.negocio.IFuenteDatos;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
-import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Habitaciones;
-import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Huespedes;
-import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Reservas;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Modelo {
+public class Modelo implements IModelo {
     private static IHabitaciones habitaciones;
     private static IReservas reservas;
     private static IHuespedes huespedes;
     private static IFuenteDatos fuenteDatos;
 
-    public Modelo(){}
+    public Modelo (FactoriaFuenteDatos factoriaFuenteDatos) throws NullPointerException {
+        if (factoriaFuenteDatos == null) {
+            throw new NullPointerException("ERROR: No se ha indicado el modelo de datos a usar.");
+        }
+        factoriaFuenteDatos.crear();
+        comenzar();
+    }
 
     public void comenzar() throws IllegalArgumentException, NullPointerException {
-        habitaciones = new Habitaciones();
-        reservas = new Reservas();
-        huespedes = new Huespedes();
+        huespedes = fuenteDatos.crearHuespedes();
+        habitaciones = fuenteDatos.crearHabitaciones();
+        reservas = fuenteDatos.crearReservas();
     }
 
     public void terminar(){
+        huespedes.terminar();
+        habitaciones.terminar();
+        reservas.terminar();
         System.out.println("El modelo ha finalizado.");
     }
 
@@ -94,6 +100,10 @@ public class Modelo {
         return reservas.getReservas(tipoHabitacion);
     }
 
+    public List<Reserva> getReservas(Habitacion habitacion) throws NullPointerException {
+        return reservas.getReservas(habitacion);
+    }
+
     public List<Reserva> getReservasFuturas(Habitacion habitacion) throws NullPointerException {
         return reservas.getReservasFuturas(habitacion);
     }
@@ -104,5 +114,9 @@ public class Modelo {
 
     public void realizarCheckout (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException {
         reservas.realizarCheckout(reserva, fecha);
+    }
+
+    private void setFuenteDatos (IFuenteDatos fuenteDatos) {
+        Modelo.fuenteDatos = fuenteDatos;
     }
 }

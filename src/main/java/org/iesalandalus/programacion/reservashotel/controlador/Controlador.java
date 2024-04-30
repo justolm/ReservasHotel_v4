@@ -97,6 +97,10 @@ public class Controlador {
         return modelo.getReservas(tipoHabitacion);
     }
 
+    public List<Reserva> getReservas(Habitacion habitacion) throws NullPointerException {
+        return modelo.getReservas(habitacion);
+    }
+
     public List<Reserva> getReservasFuturas(Habitacion habitacion) throws NullPointerException {
         return modelo.getReservasFuturas(habitacion);
     }

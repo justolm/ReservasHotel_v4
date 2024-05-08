@@ -9,19 +9,19 @@ public abstract class Habitacion {
     public static final int MAX_NUMERO_PUERTA = 14;
     public static final int MIN_NUMERO_PLANTA = 1;
     public static final int MAX_NUMERO_PLANTA = 3;
-    private String identificador;
-    private int planta;
-    private int puerta;
-    private double precio;
+    protected String identificador;
+    protected int planta;
+    protected int puerta;
+    protected double precio;
 
-    public Habitacion(int planta, int puerta, double precio) throws IllegalArgumentException{
-        if (planta<MIN_NUMERO_PLANTA||planta>MAX_NUMERO_PLANTA){
+    public Habitacion(int planta, int puerta, double precio) throws IllegalArgumentException {
+        if (planta<MIN_NUMERO_PLANTA||planta>MAX_NUMERO_PLANTA) {
             throw new IllegalArgumentException("ERROR: No se puede establecer como planta de una habitación un valor menor que 1 ni mayor que 3.");
         }
-        else if (puerta<MIN_NUMERO_PUERTA||puerta>MAX_NUMERO_PUERTA){
+        else if (puerta<MIN_NUMERO_PUERTA||puerta>MAX_NUMERO_PUERTA) {
             throw new IllegalArgumentException("ERROR: No se puede establecer como puerta de una habitación un valor menor que 0 ni mayor que 14.");
         }
-        else if (precio<MIN_PRECIO_HABITACION||precio>MAX_PRECIO_HABITACION){
+        else if (precio<MIN_PRECIO_HABITACION||precio>MAX_PRECIO_HABITACION) {
             throw new IllegalArgumentException("ERROR: No se puede establecer como precio de una habitación un valor menor que 40.0 ni mayor que 150.0.");
         }
         else{
@@ -33,8 +33,9 @@ public abstract class Habitacion {
     }
 
     public Habitacion(Habitacion habitacion) throws NullPointerException {
-        if(habitacion==null)
+        if(habitacion==null) {
             throw new NullPointerException("ERROR: No es posible copiar una habitación nula.");
+        }
         this.identificador = habitacion.identificador;
         this.planta = habitacion.planta;
         this.puerta = habitacion.puerta;

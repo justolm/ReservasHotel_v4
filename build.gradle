@@ -20,6 +20,7 @@ dependencies {
 
     // MongoDB Driver
     implementation 'org.mongodb:mongodb-driver-sync:4.4.2'
+   // implementation 'ch.qos.logback:logback-classic:1.2.11'
 }
 
 test {

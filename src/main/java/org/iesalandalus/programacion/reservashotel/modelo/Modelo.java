@@ -10,6 +10,7 @@ import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
 
 import javax.naming.OperationNotSupportedException;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Modelo implements IModelo {
         if (factoriaFuenteDatos == null) {
             throw new NullPointerException("ERROR: No se ha indicado el modelo de datos a usar.");
         }
-        factoriaFuenteDatos.crear();
+        setFuenteDatos(factoriaFuenteDatos.crear());
         comenzar();
     }
 
@@ -40,11 +41,11 @@ public class Modelo implements IModelo {
         System.out.println("El modelo ha finalizado.");
     }
 
-    public void insertar (Huesped huesped) throws OperationNotSupportedException, NullPointerException {
+    public void insertar (Huesped huesped) throws OperationNotSupportedException, NullPointerException, ParseException {
         huespedes.insertar(huesped);
     }
 
-    public Huesped buscar (Huesped huesped) throws IllegalArgumentException, NullPointerException {
+    public Huesped buscar (Huesped huesped) throws IllegalArgumentException, NullPointerException, ParseException {
         return huespedes.buscar(huesped);
     }
 
@@ -52,7 +53,7 @@ public class Modelo implements IModelo {
         huespedes.borrar(huesped);
     }
 
-    public List<Huesped> getHuespedes(){
+    public List<Huesped> getHuespedes() throws ParseException {
         return huespedes.get();
     }
 
@@ -76,43 +77,43 @@ public class Modelo implements IModelo {
         return habitaciones.get(tipoHabitacion);
     }
 
-    public void insertar (Reserva reserva) throws OperationNotSupportedException, NullPointerException {
+    public void insertar (Reserva reserva) throws OperationNotSupportedException, NullPointerException, ParseException {
         reservas.insertar(reserva);
     }
 
-    public Reserva buscar (Reserva reserva) throws NullPointerException {
+    public Reserva buscar (Reserva reserva) throws NullPointerException, ParseException {
         return reservas.buscar(reserva);
     }
 
-    public void borrar (Reserva reserva) throws OperationNotSupportedException, NullPointerException {
+    public void borrar (Reserva reserva) throws OperationNotSupportedException, NullPointerException, ParseException {
         reservas.borrar(reserva);
     }
 
-    public List<Reserva> getReservas() {
+    public List<Reserva> getReservas() throws ParseException {
         return reservas.get();
     }
 
-    public List<Reserva> getReservas(Huesped huesped) throws NullPointerException {
+    public List<Reserva> getReservas(Huesped huesped) throws NullPointerException, ParseException {
         return reservas.getReservas(huesped);
     }
 
-    public List<Reserva> getReservas(TipoHabitacion tipoHabitacion) throws NullPointerException {
+    public List<Reserva> getReservas(TipoHabitacion tipoHabitacion) throws NullPointerException, ParseException {
         return reservas.getReservas(tipoHabitacion);
     }
 
-    public List<Reserva> getReservas(Habitacion habitacion) throws NullPointerException {
+    public List<Reserva> getReservas(Habitacion habitacion) throws NullPointerException, ParseException {
         return reservas.getReservas(habitacion);
     }
 
-    public List<Reserva> getReservasFuturas(Habitacion habitacion) throws NullPointerException {
+    public List<Reserva> getReservasFuturas(Habitacion habitacion) throws NullPointerException, ParseException {
         return reservas.getReservasFuturas(habitacion);
     }
 
-    public void realizarCheckin (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException {
+    public void realizarCheckin (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException, ParseException {
         reservas.realizarCheckin(reserva, fecha);
     }
 
-    public void realizarCheckout (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException {
+    public void realizarCheckout (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException, ParseException {
         reservas.realizarCheckout(reserva, fecha);
     }
 

@@ -15,8 +15,8 @@ public class Suite extends Habitacion {
 
     public Suite (Suite habitacionSuite) {
         super(habitacionSuite);
-        setNumBanos(numBanos);
-        setTieneJacuzzi(tieneJacuzzi);
+        setNumBanos(habitacionSuite.numBanos);
+        setTieneJacuzzi(habitacionSuite.tieneJacuzzi);
     }
 
     public int getNumBanos() {

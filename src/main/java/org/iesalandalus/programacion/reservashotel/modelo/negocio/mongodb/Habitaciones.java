@@ -77,7 +77,7 @@ public class Habitaciones implements IHabitaciones {
     }
 
     public void insertar (Habitacion habitacion) throws NullPointerException, OperationNotSupportedException {
-        if (habitacion==null){
+        if (habitacion == null){
             throw new NullPointerException("ERROR: No se puede insertar una habitación nula.");
         }
         if (buscar(habitacion) != null){
@@ -87,8 +87,9 @@ public class Habitaciones implements IHabitaciones {
     }
 
     public Habitacion buscar(Habitacion habitacion) throws NullPointerException{
-        if (habitacion==null)
+        if (habitacion == null) {
             throw new NullPointerException("ERROR: No se puede buscar una habitación nula.");
+        }
         Document docHabitacion = coleccionHabitaciones.find(Filters.eq(MongoDB.IDENTIFICADOR,habitacion.getIdentificador())).first();
         if (docHabitacion != null){
             return MongoDB.getHabitacion(docHabitacion);

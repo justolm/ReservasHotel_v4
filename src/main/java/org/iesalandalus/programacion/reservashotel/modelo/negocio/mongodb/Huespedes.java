@@ -1,5 +1,6 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -10,6 +11,7 @@ import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.utilidades.MongoDB;
 
 import javax.naming.OperationNotSupportedException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -21,9 +23,11 @@ public class Huespedes implements IHuespedes {
         coleccionHuespedes = MongoDB.getBD().getCollection(COLECCION);
     }
 
-    public List<Huesped> get() {
+    public List<Huesped> get() throws ParseException {
         List<Huesped> listadoHuespedes = new ArrayList<>();
-        for (Document document : coleccionHuespedes.find().sort(Sorts.ascending(MongoDB.DNI))) {
+        FindIterable<Document> listaHuespedesOrdenada;
+        listaHuespedesOrdenada = coleccionHuespedes.find().sort(Sorts.ascending(MongoDB.DNI));
+        for (Document document : listaHuespedesOrdenada) {
             Huesped huesped = MongoDB.getHuesped(document);
             listadoHuespedes.add(huesped);
         }
@@ -34,8 +38,8 @@ public class Huespedes implements IHuespedes {
         return (int) coleccionHuespedes.countDocuments();
     }
 
-    public void insertar(Huesped huesped) throws OperationNotSupportedException, NullPointerException {
-        if (huesped==null)
+    public void insertar(Huesped huesped) throws OperationNotSupportedException, NullPointerException, ParseException {
+        if (huesped == null)
             throw new NullPointerException("ERROR: No se puede insertar un huésped nulo.");
         else if (buscar(huesped) != null){
             throw new OperationNotSupportedException("ERROR: Ya existe un huésped con ese dni.");
@@ -43,8 +47,8 @@ public class Huespedes implements IHuespedes {
         coleccionHuespedes.insertOne(MongoDB.getDocumento(huesped));
     }
 
-    public Huesped buscar(Huesped huesped) throws NullPointerException, IllegalArgumentException {
-        if (huesped==null)
+    public Huesped buscar(Huesped huesped) throws NullPointerException, IllegalArgumentException, ParseException {
+        if (huesped == null)
             throw new NullPointerException("ERROR: No se puede buscar un huésped nulo.");
         Document docHuesped = coleccionHuespedes.find(Filters.eq(MongoDB.DNI,huesped.getDni())).first();
         if (docHuesped != null){
@@ -54,9 +58,12 @@ public class Huespedes implements IHuespedes {
     }
 
     public void borrar(Huesped huesped) throws OperationNotSupportedException, NullPointerException{
-        if (huesped==null)
+        if (huesped == null)
             throw new NullPointerException("ERROR: No se puede borrar un huésped nulo.");
-        Document docHuesped = coleccionHuespedes.find(Filters.eq(MongoDB.DNI,huesped.getDni())).first();
+        Document docHuesped = null;
+        if (coleccionHuespedes.countDocuments() > 0) { // Comprueba que existan huéspedes antes de intentar filtrarlas.
+            docHuesped = coleccionHuespedes.find(Filters.eq(MongoDB.DNI,huesped.getDni())).first();
+        }
         if (docHuesped != null){
             coleccionHuespedes.deleteOne(docHuesped);
         }

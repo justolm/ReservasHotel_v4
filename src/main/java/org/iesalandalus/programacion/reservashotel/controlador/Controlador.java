@@ -8,6 +8,7 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion
 import org.iesalandalus.programacion.reservashotel.vista.Vista;
 
 import javax.naming.OperationNotSupportedException;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,11 +38,11 @@ public class Controlador {
         vista.terminar();
     }
 
-    public void insertar(Huesped huesped) throws OperationNotSupportedException, NullPointerException {
+    public void insertar(Huesped huesped) throws OperationNotSupportedException, NullPointerException, ParseException {
         modelo.insertar(huesped);
     }
 
-    public Huesped buscar(Huesped huesped) throws NullPointerException, IllegalArgumentException {
+    public Huesped buscar(Huesped huesped) throws NullPointerException, IllegalArgumentException, ParseException {
         return modelo.buscar(huesped);
     }
 
@@ -49,7 +50,7 @@ public class Controlador {
         modelo.borrar(huesped);
     }
 
-    public List<Huesped> getHuespedes(){
+    public List<Huesped> getHuespedes() throws ParseException {
         return modelo.getHuespedes();
     }
 
@@ -73,43 +74,43 @@ public class Controlador {
         return modelo.getHabitaciones(tipoHabitacion);
     }
 
-    public void insertar (Reserva reserva) throws OperationNotSupportedException, NullPointerException {
+    public void insertar (Reserva reserva) throws OperationNotSupportedException, NullPointerException, ParseException {
         modelo.insertar(reserva);
     }
 
-    public Reserva buscar (Reserva reserva) throws NullPointerException {
+    public Reserva buscar (Reserva reserva) throws NullPointerException, ParseException {
         return modelo.buscar(reserva);
     }
 
-    public void borrar (Reserva reserva) throws OperationNotSupportedException, NullPointerException {
+    public void borrar (Reserva reserva) throws OperationNotSupportedException, NullPointerException, ParseException {
         modelo.borrar(reserva);
     }
 
-    public List<Reserva> getReservas() {
+    public List<Reserva> getReservas() throws ParseException {
         return modelo.getReservas();
     }
 
-    public List<Reserva> getReservas(Huesped huesped) throws NullPointerException {
+    public List<Reserva> getReservas(Huesped huesped) throws NullPointerException, ParseException {
         return modelo.getReservas(huesped);
     }
 
-    public List<Reserva> getReservas(TipoHabitacion tipoHabitacion) throws NullPointerException {
+    public List<Reserva> getReservas(TipoHabitacion tipoHabitacion) throws NullPointerException, ParseException {
         return modelo.getReservas(tipoHabitacion);
     }
 
-    public List<Reserva> getReservas(Habitacion habitacion) throws NullPointerException {
+    public List<Reserva> getReservas(Habitacion habitacion) throws NullPointerException, ParseException {
         return modelo.getReservas(habitacion);
     }
 
-    public List<Reserva> getReservasFuturas(Habitacion habitacion) throws NullPointerException {
+    public List<Reserva> getReservasFuturas(Habitacion habitacion) throws NullPointerException, ParseException {
         return modelo.getReservasFuturas(habitacion);
     }
 
-    public void realizarCheckin (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException {
+    public void realizarCheckin (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException, ParseException {
         modelo.realizarCheckin(reserva, fecha);
     }
 
-    public void realizarCheckout (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException {
+    public void realizarCheckout (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException, ParseException {
         modelo.realizarCheckout(reserva, fecha);
     }
 }

@@ -33,6 +33,7 @@ public class Consola {
 
     public static Huesped leerHuesped() throws NullPointerException, IllegalArgumentException, ParseException {
         String nombre, dni, correo, telefono, fecha;
+        DateTimeFormatter formatoFechaNac = DateTimeFormatter.ofPattern(Huesped.FORMATO_FECHA);
         LocalDate fechaNacimiento=null;
         System.out.println("Introduzca los datos del huésped. ");
         System.out.print("Nombre: ");
@@ -43,17 +44,16 @@ public class Consola {
         correo=Entrada.cadena();
         System.out.print("Teléfono: ");
         telefono=Entrada.cadena();
-        System.out.print("Fecha de nacimiento (AAAA-MM-DD): ");
+        System.out.print("Fecha de nacimiento (DD/MM/AAAA): ");
         fecha=Entrada.cadena();
         if (fecha.isEmpty()) {
             throw new IllegalArgumentException("ERROR: No se puede introducir una fecha vacía.");
         }
         try {
-            fechaNacimiento= LocalDate.parse(fecha);
+            fechaNacimiento = LocalDate.parse(fecha, formatoFechaNac);
         } catch (DateTimeException e) {
             System.out.println(e.getMessage());
         }
-
         return (new Huesped(nombre, dni, correo, telefono, fechaNacimiento));
     }
 
@@ -154,7 +154,7 @@ public class Consola {
                 numBanos = Entrada.entero();
                 System.out.println("¿Quiere Jacuzzi (S/N): ");
                 hayJacuzzi = Entrada.cadena();
-                if (hayJacuzzi.equalsIgnoreCase("S")) {
+                if (hayJacuzzi.equalsIgnoreCase("S") || hayJacuzzi.equalsIgnoreCase("1")) { // también acepto "1" como entrada válida para indicar que quiere jacuzzi
                     hayJacuzzi="true";
                 }
             } while (numBanos < Suite.MIN_NUM_BANOS || numBanos > Suite.MAX_NUM_BANOS);
@@ -222,7 +222,7 @@ public class Consola {
         TipoHabitacion tipoHabitacion;
         Habitacion habitacion=null;
         LocalDate fechaInicioReserva, fechaFinReserva;
-        String entrada;
+        String entrada, salida;
         int numeroPersonas,maximoPersonas;
         huesped = new Huesped(getHuespedPorDni());
         tipoHabitacion = leerTipoHabitacion();
@@ -238,12 +238,12 @@ public class Consola {
             numeroPersonas=Entrada.entero();
         }while (numeroPersonas<0 || numeroPersonas>maximoPersonas);
         regimen = leerRegimen();
-        System.out.print("Introduzca la fecha de inicio de reserva (dd/mm/aa): ");
+        System.out.print("Introduzca la fecha de inicio de reserva (dd/mm/aaaa): ");
         entrada = Entrada.cadena();
         fechaInicioReserva = leerFecha(entrada);
-        System.out.print("Introduzca la fecha de fin de reserva (dd/mm/aa): ");
-        entrada = Entrada.cadena();
-        fechaFinReserva = leerFecha(entrada);
+        System.out.print("Introduzca la fecha de fin de reserva (dd/mm/aaaa): ");
+        salida = Entrada.cadena();
+        fechaFinReserva = leerFecha(salida);
         reserva=new Reserva(huesped,habitacion,regimen,fechaInicioReserva,fechaFinReserva,numeroPersonas);
         return reserva;
     }

@@ -1,5 +1,7 @@
 package org.iesalandalus.programacion.reservashotel.vista;
 
+import java.text.ParseException;
+
 public enum Opcion {
     SALIR("SALIR") {
         @Override
@@ -61,21 +63,15 @@ public enum Opcion {
             vista.insertarReserva();
         }
     },
-    LISTAR_RESERVA("LISTAR RESERVA") {
-        @Override
-        public void ejecutar() {
-            vista.mostrarReservasHuesped();
-        }
-    },
     ANULAR_RESERVA("ANULAR RESERVA") {
         @Override
-        public void ejecutar() {
+        public void ejecutar() throws ParseException {
             vista.anularReserva();
         }
     },
     MOSTRAR_RESERVAS("MOSTRAR RESERVAS") {
         @Override
-        public void ejecutar() {
+        public void ejecutar() throws NullPointerException, ParseException {
             vista.mostrarReservas();
         }
     },
@@ -99,13 +95,13 @@ public enum Opcion {
     },
     REALIZAR_CHECKIN("REALIZAR CHECKIN") {
         @Override
-        public void ejecutar() {
+        public void ejecutar() throws ParseException {
             vista.realizarCheckin();
         }
     },
     REALIZAR_CHECKOUT("REALIZAR CHECKOUT") {
         @Override
-        public void ejecutar() {
+        public void ejecutar() throws ParseException {
             vista.realizarCheckout();
         }
     };
@@ -116,7 +112,7 @@ public enum Opcion {
         Opcion.vista = vista;
     }
 
-    public abstract void ejecutar();
+    public abstract void ejecutar() throws ParseException;
 
     private final String mensajeAMostrar;
     Opcion(String mensajeAMostrar){

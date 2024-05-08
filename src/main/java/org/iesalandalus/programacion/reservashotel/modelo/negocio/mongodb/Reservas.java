@@ -1,19 +1,25 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
+import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.utilidades.MongoDB;
 
 import javax.naming.OperationNotSupportedException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 
 public class Reservas implements IReservas {
     private static final String COLECCION = "reservas";
@@ -23,10 +29,13 @@ public class Reservas implements IReservas {
         coleccionReservas = MongoDB.getBD().getCollection(COLECCION);
     }
 
-    public List<Reserva> get() {
+    public List<Reserva> get() throws ParseException {
         List<Reserva> listadoReservas = new ArrayList<>();
-        for (Document document : coleccionReservas.find().sort(Sorts.ascending(MongoDB.FECHA_INICIO_RESERVA))) {
-            listadoReservas.add(MongoDB.getReserva(document));
+        FindIterable<Document> listaReservasOrdenada;
+        listaReservasOrdenada = coleccionReservas.find().sort(Sorts.ascending(MongoDB.FECHA_INICIO_RESERVA));
+        for (Document document : listaReservasOrdenada) {
+            Reserva reserva = MongoDB.getReserva(document);
+            listadoReservas.add(reserva);
         }
         return listadoReservas;
     }
@@ -35,7 +44,7 @@ public class Reservas implements IReservas {
         return (int) coleccionReservas.countDocuments();
     }
 
-    public void insertar (Reserva reserva) throws OperationNotSupportedException, NullPointerException {
+    public void insertar (Reserva reserva) throws OperationNotSupportedException, NullPointerException, ParseException {
         if (reserva == null){
             throw new NullPointerException("ERROR: No se puede insertar una reserva nula.");
         }
@@ -45,29 +54,32 @@ public class Reservas implements IReservas {
         coleccionReservas.insertOne(MongoDB.getDocumento(reserva));
     }
 
-    public Reserva buscar (Reserva reserva) throws NullPointerException {
+    public Reserva buscar (Reserva reserva) throws NullPointerException, ParseException {
         if (reserva == null){
             throw new NullPointerException("ERROR: No se puede buscar una reserva nula.");
         }
-        Document docReserva = coleccionReservas.find(Filters.eq(MongoDB.RESERVA,reserva)).first();
+        Document docReserva = null;
+        if (coleccionReservas.countDocuments() > 0) { // Comprueba que existan reservas antes de intentar filtrarlas.
+            docReserva = coleccionReservas.find().filter(and(eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva().format(MongoDB.FORMATO_DIA)),eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()))).first();
+        }
         if (docReserva != null){
             return MongoDB.getReserva(docReserva);
         }
         return null;
     }
 
-    public void borrar (Reserva reserva) throws OperationNotSupportedException, NullPointerException {
+    public void borrar (Reserva reserva) throws OperationNotSupportedException, NullPointerException, ParseException {
         if (reserva == null){
             throw new NullPointerException("ERROR: No se puede borrar una reserva nula.");
         }
-        Document docReserva = coleccionReservas.find(Filters.eq(MongoDB.RESERVA,reserva)).first();
-        if (docReserva != null){
-            coleccionReservas.deleteOne(docReserva);
+        Reserva reservaBorrar = buscar(reserva);
+        if (reservaBorrar != null){
+            coleccionReservas.deleteOne(MongoDB.getDocumento(reserva));
         }
         else throw new OperationNotSupportedException("ERROR: No existe ninguna reserva como la indicada.");
     }
 
-    public List<Reserva> getReservas (Huesped huesped) throws NullPointerException{
+    public List<Reserva> getReservas (Huesped huesped) throws NullPointerException, ParseException {
         List<Reserva> listadoReservasHuesped = new ArrayList<>();
         List<Reserva> copiaColReservas = get();
         if (huesped == null){
@@ -81,30 +93,30 @@ public class Reservas implements IReservas {
         return listadoReservasHuesped;
     }
 
-    public List<Reserva> getReservas (TipoHabitacion tipoHabitacion) throws NullPointerException{
+    public List<Reserva> getReservas (TipoHabitacion tipoHabitacion) throws NullPointerException, ParseException {
         if (tipoHabitacion == null){
             throw new NullPointerException("ERROR: No se pueden buscar reservas de un tipo de habitación nula.");
         }
-        List<Reserva> ListadoReservasTipoHab = new ArrayList<>();
+        List<Reserva> listadoReservasTipoHab = new ArrayList<>();
         List<Reserva> copiaColReservas = get();
         for (Reserva reserva : copiaColReservas){
             if (reserva.getHabitacion() instanceof Simple && tipoHabitacion==TipoHabitacion.SIMPLE){
-                ListadoReservasTipoHab.add(new Reserva(reserva));
+                listadoReservasTipoHab.add(new Reserva(reserva));
             }
             else if (reserva.getHabitacion() instanceof Doble && tipoHabitacion==TipoHabitacion.DOBLE) {
-                ListadoReservasTipoHab.add(new Reserva(reserva));
+                listadoReservasTipoHab.add(new Reserva(reserva));
             }
             else if (reserva.getHabitacion() instanceof Triple && tipoHabitacion==TipoHabitacion.TRIPLE) {
-                ListadoReservasTipoHab.add(new Reserva(reserva));
+                listadoReservasTipoHab.add(new Reserva(reserva));
             }
             else if (reserva.getHabitacion() instanceof Suite && tipoHabitacion==TipoHabitacion.SUITE) {
-                ListadoReservasTipoHab.add(new Reserva(reserva));
+                listadoReservasTipoHab.add(new Reserva(reserva));
             }
         }
-        return ListadoReservasTipoHab;
+        return listadoReservasTipoHab;
     }
 
-    public List<Reserva> getReservas (Habitacion habitacion) throws NullPointerException {
+    public List<Reserva> getReservas (Habitacion habitacion) throws NullPointerException, ParseException {
         if (habitacion == null){
             throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
         }
@@ -115,10 +127,13 @@ public class Reservas implements IReservas {
                 listadoReservasHabitacion.add(new Reserva(reserva));
             }
         }
+        if (listadoReservasHabitacion.isEmpty()) {
+            System.out.println("No existen reservas para la habitación indicada.");
+        }
         return listadoReservasHabitacion;
     }
 
-    public List<Reserva> getReservasFuturas (Habitacion habitacion) throws NullPointerException {
+    public List<Reserva> getReservasFuturas (Habitacion habitacion) throws NullPointerException, ParseException {
         if (habitacion == null){
             throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
         }
@@ -134,7 +149,7 @@ public class Reservas implements IReservas {
         return listadoReservasFuturasHab;
     }
 
-    public void realizarCheckin (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException{
+    public void realizarCheckin (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException, ParseException {
         if (reserva == null){
             throw new NullPointerException("ERROR: La reserva no puede ser nula.");
         }
@@ -150,14 +165,15 @@ public class Reservas implements IReservas {
         else if (fecha.isAfter(reserva.getFechaFinReserva().atStartOfDay().plusDays(1))) {
             throw new IllegalArgumentException("ERROR: No se puede realizar el CheckIn en una fecha posterior al final de la reserva.");
         }
-        Document docReserva = coleccionReservas.find(Filters.eq(MongoDB.RESERVA,reserva)).first();
+        Document docReserva = coleccionReservas.find().filter(and(eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva().format(MongoDB.FORMATO_DIA)),eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()))).first();
         if (docReserva != null) {
             reserva.setCheckIn(fecha);
+            coleccionReservas.updateOne(Filters.eq(MongoDB.CHECKIN,docReserva.getString(MongoDB.CHECKIN)), Updates.set(MongoDB.CHECKIN,fecha.format(MongoDB.FORMATO_DIA_HORA)));
             System.out.println("CheckIn añadido a la reserva.");
         }
     }
 
-    public void realizarCheckout (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException{
+    public void realizarCheckout (Reserva reserva, LocalDateTime fecha) throws IllegalArgumentException, NullPointerException, ParseException {
         if (reserva == null){
             throw new NullPointerException("ERROR: La reserva no puede ser nula.");
         }
@@ -173,9 +189,10 @@ public class Reservas implements IReservas {
         else if (fecha.isAfter(reserva.getFechaFinReserva().atStartOfDay().plusDays(1))) {
             throw new IllegalArgumentException("ERROR: No se puede realizar el CheckOut en una fecha posterior al final de la reserva.");
         }
-        Document docReserva = coleccionReservas.find(Filters.eq(MongoDB.RESERVA,reserva)).first();
+        Document docReserva = coleccionReservas.find().filter(and(eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva().format(MongoDB.FORMATO_DIA)),eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()))).first();
         if (docReserva != null) {
-            reserva.setCheckOut(fecha);
+            reserva.setCheckIn(fecha);
+            coleccionReservas.updateOne(Filters.eq(MongoDB.CHECKOUT, docReserva.getString(MongoDB.CHECKOUT)), Updates.set(MongoDB.CHECKOUT, fecha.format(MongoDB.FORMATO_DIA_HORA)));
             System.out.println("CheckOut añadido a la reserva.");
         }
     }

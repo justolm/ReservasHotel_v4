@@ -17,7 +17,7 @@ public class Huesped {
     private static final List<Character> ER_DNI = Arrays.asList('T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E');
     private static final String ER_TELEFONO = "[0-9]{9}";
     private static final String ER_CORREO = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-    public static final String FORMATO_FECHA = "%02d/%02d/%d";
+    public static final String FORMATO_FECHA = "dd/MM/yyyy";
 
     public Huesped(String nombre, String dni, String correo, String telefono, LocalDate fechaNacimiento) throws NullPointerException, IllegalArgumentException {
         if (nombre==null){
@@ -177,7 +177,7 @@ public class Huesped {
     }
 
     private void setFechaNacimiento(LocalDate fechaNacimiento) throws NullPointerException, IllegalArgumentException {
-        if (fechaNacimiento==null){
+        if (fechaNacimiento == null){
             throw new NullPointerException("ERROR: La fecha de nacimiento no puede estar vacía.");
         }
         if (fechaNacimiento.isBefore(LocalDate.now())){
@@ -223,6 +223,6 @@ public class Huesped {
                 ", DNI=" + dni  +
                 ", correo=" + correo +
                 ", teléfono=" + telefono +
-                ", fecha nacimiento=" + String.format(FORMATO_FECHA, fechaNacimiento.getDayOfMonth(), fechaNacimiento.getMonthValue(), fechaNacimiento.getYear());
+                ", fecha nacimiento=" + fechaNacimiento;
     }
 }
